@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { MainView } from "../../components/utilities/safe-area.component";
 
-import { RestaurantNavigator } from "./restaurants.navigator";
+import { RestaurantsNavigator } from "./restaurants.navigator";
 
 const Settings = () => (
   <MainView>
@@ -27,16 +27,13 @@ const TAB_ICON = {
   Settings: "settings",
 };
 
-const tabBarIcon =
-  (iconName) =>
-  ({ size, color }) =>
-    <Ionicons name={iconName} size={size} color={color} />;
-
 const createScreenOptions = ({ route }) => {
   const iconName = TAB_ICON[route.name];
 
   return {
-    tabBarIcon: tabBarIcon(iconName),
+    tabBarIcon: ({ size, color }) => (
+      <Ionicons name={iconName} size={size} color={color} />
+    ),
   };
 };
 
@@ -46,7 +43,7 @@ export const Navigator = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator screenOptions={createScreenOptions}>
-        <Tab.Screen name="Restaurants" component={RestaurantNavigator} />
+        <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
         <Tab.Screen name="Maps" component={Map} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
