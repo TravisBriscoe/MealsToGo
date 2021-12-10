@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --dev-client",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint . --ext .js"
@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo-google-fonts/lato": "^0.2.0",
     "@expo-google-fonts/oswald": "^0.2.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^5.9.8",
     "@react-navigation/native": "^5.9.8",
@@ -22,6 +23,7 @@
     "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "^1.1.0",
     "expo-updates": "~0.10.13",
+    "firebase": "^9.6.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
