@@ -1,15 +1,81 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
-import { Text } from "react-native";
+import { Spacer } from "../../../components/spacer/spacer.component";
+import { Text } from "../../../components/typography/text.component";
 
-import { BackgroundView } from "../components/account.styles";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+
+import {
+  BackgroundView,
+  AccountCover,
+  AccountContainer,
+  AuthButton,
+  AuthInput,
+  Title,
+  ErrorContainer,
+} from "../components/account.styles";
 
 const img = "../../../../assets/home_bg.jpg";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { onLogin, error, isLoading } = useContext(AuthenticationContext);
+
   return (
     <BackgroundView source={require(img)}>
-      <Text> Hello World!</Text>
+      <AccountCover />
+      <Title>Meals To Go</Title>
+      <AccountContainer>
+        <AuthInput
+          label="Email"
+          value={email}
+          textContentType="emailAddress"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          onChangeText={(text) => setEmail(text)}
+          mode="outlined"
+        />
+        <Spacer size="large">
+          <AuthInput
+            label="Password"
+            mode="outlined"
+            value={password}
+            textContentType="password"
+            secureTextEntry
+            autoCapitalize="none"
+            onChangeText={(text) => {
+              setPassword(text);
+            }}
+          />
+        </Spacer>
+        {error && (
+          <Spacer size="large">
+            <ErrorContainer>
+              <Text variant="error">{error}</Text>
+            </ErrorContainer>
+          </Spacer>
+        )}
+        <Spacer size="large">
+          {!isLoading ? (
+            <AuthButton
+              mode="contained"
+              icon="lock-open-outline"
+              onPress={() => onLogin(email, password)}
+            >
+              Login
+            </AuthButton>
+          ) : (
+            <ActivityIndicator animating={true} color={Colors.blue300} />
+          )}
+        </Spacer>
+      </AccountContainer>
+      <Spacer size="large">
+        <AuthButton mode="contained" onPress={() => navigation.goBack()}>
+          Back
+        </AuthButton>
+      </Spacer>
     </BackgroundView>
   );
 };

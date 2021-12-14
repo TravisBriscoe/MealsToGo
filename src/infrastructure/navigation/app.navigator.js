@@ -1,5 +1,5 @@
-import React from "react";
-import { Text } from "react-native";
+import React, { useContext } from "react";
+import { Text, Button } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,12 +8,17 @@ import { MainView } from "../../components/utilities/safe-area.component";
 
 import { RestaurantsNavigator } from "./restaurants.navigator";
 import { MapScreen } from "../../features/map/screens/map.screen";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
-const Settings = () => (
-  <MainView>
-    <Text>Settings</Text>
-  </MainView>
-);
+const Settings = () => {
+  const { onLogout } = useContext(AuthenticationContext);
+  return (
+    <MainView>
+      <Text>Settings</Text>
+      <Button title="Logout" onPress={() => onLogout()} />
+    </MainView>
+  );
+};
 
 const TAB_ICON = {
   Restaurants: "fast-food",
