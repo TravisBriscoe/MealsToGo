@@ -73,3 +73,7 @@ web-build/
 dist/
 
 # @end expo-cli
+
+*.bak
+android/
+ios/
