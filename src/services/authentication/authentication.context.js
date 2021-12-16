@@ -14,29 +14,47 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState([]);
 
+  console.log(isLoading);
+
   onAuthStateChanged(getAuth(), (usr) => {
     if (usr) {
-      setIsLoading(true);
       setUser(usr);
-      setIsLoading(false);
+      if (isLoading) {
+        setIsLoading(false);
+      }
     } else {
-      setIsLoading(false);
+      if (isLoading) {
+        setIsLoading(false);
+      }
     }
   });
 
   const onLogin = (email, password) => {
-    setIsLoading(true);
-    loginRequest(email, password)
-      .then((u) => {
-        setUser(u);
-        setError(null);
-      })
-      .catch((err) => {
-        const newErr = err.toString().split("(auth/");
-        const errSplit = newErr[1].split(").");
-        setError("Error: " + errSplit);
-      });
-    setIsLoading(false);
+    if (!isLoading) {
+      console.log(isLoading);
+      setIsLoading(true);
+    }
+    setTimeout(() => {
+      loginRequest(email, password)
+        .then((u) => {
+          setUser(u);
+          setError(null);
+          if (isLoading) {
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => {
+          if (!isLoading) {
+            setIsLoading(true);
+          }
+          const newErr = err.toString().split("(auth/");
+          const errSplit = newErr[1].split(").");
+          setError("Error: " + errSplit);
+          if (isLoading) {
+            setIsLoading(false);
+          }
+        });
+    }, 1000);
   };
 
   const onRegister = (email, password, repeatedPassword) => {
@@ -48,16 +66,25 @@ export const AuthenticationContextProvider = ({ children }) => {
 
     createNewUser(email, password)
       .then((u) => {
-        setIsLoading(true);
+        if (!isLoading) {
+          setIsLoading(true);
+        }
         setUser(u);
         setError(null);
-        setIsLoading(false);
+        if (isLoading) {
+          setIsLoading(false);
+        }
       })
       .catch((err) => {
-        setIsLoading(false);
+        if (!isLoading) {
+          setIsLoading(true);
+        }
         const newErr = err.toString().split("(auth/");
         const errSplit = newErr[1].split(").");
         setError("Error: " + errSplit);
+        if (isLoading) {
+          setIsLoading(false);
+        }
       });
   };
 
