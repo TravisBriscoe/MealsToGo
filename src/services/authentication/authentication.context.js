@@ -1,6 +1,11 @@
 import React, { createContext, useState } from "react";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { loginRequest, createNewUser } from "./authentication.service";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import * as firebase from "firebase";
+import {
+  loginRequest,
+  createNewUser,
+  logoutUser,
+} from "./authentication.service";
 
 export const AuthenticationContext = createContext();
 
@@ -10,8 +15,8 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [error, setError] = useState([]);
 
   onAuthStateChanged(getAuth(), (usr) => {
-    setIsLoading(true);
     if (usr) {
+      setIsLoading(true);
       setUser(usr);
       setIsLoading(false);
     } else {
@@ -23,22 +28,18 @@ export const AuthenticationContextProvider = ({ children }) => {
     setIsLoading(true);
     loginRequest(email, password)
       .then((u) => {
-        console.log(isLoading);
         setUser(u);
         setError(null);
-        setIsLoading(false);
       })
       .catch((err) => {
-        setIsLoading(false);
         const newErr = err.toString().split("(auth/");
         const errSplit = newErr[1].split(").");
         setError("Error: " + errSplit);
       });
+    setIsLoading(false);
   };
 
   const onRegister = (email, password, repeatedPassword) => {
-    setIsLoading(true);
-
     if (password !== repeatedPassword) {
       setError("Error: Passwords do nut match!");
       setIsLoading(false);
@@ -47,6 +48,7 @@ export const AuthenticationContextProvider = ({ children }) => {
 
     createNewUser(email, password)
       .then((u) => {
+        setIsLoading(true);
         setUser(u);
         setError(null);
         setIsLoading(false);
@@ -61,7 +63,7 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogout = () => {
     setUser(null);
-    signOut(getAuth());
+    logoutUser();
   };
 
   return (
