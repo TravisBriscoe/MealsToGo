@@ -11,6 +11,8 @@ import {
   AnimationWrapper,
 } from "../components/account.styles";
 
+const img = "../../../../assets/watermelon.json";
+
 export const AccountScreen = ({ navigation }) => {
   return (
     <BackgroundView>
@@ -21,7 +23,7 @@ export const AccountScreen = ({ navigation }) => {
           autoPlay
           loop
           resizeMode="cover"
-          source={{ uri: "../../../../assets/watermelon.json" }}
+          source={require(img)}
         />
       </AnimationWrapper>
       <Title>Meals To Go</Title>
