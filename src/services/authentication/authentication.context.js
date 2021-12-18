@@ -14,8 +14,6 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState([]);
 
-  console.log(isLoading);
-
   onAuthStateChanged(getAuth(), (usr) => {
     if (usr) {
       setUser(usr);
@@ -31,7 +29,6 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogin = (email, password) => {
     if (!isLoading) {
-      console.log(isLoading);
       setIsLoading(true);
     }
     setTimeout(() => {
