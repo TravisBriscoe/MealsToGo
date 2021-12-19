@@ -16,12 +16,20 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anomicaphasia.mealstogo"
+      "bundleIdentifier": "com.anomicaphasia.mealstogo",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAku_Labc_84wu_YSUqZ4n5hlRy7MenI7A"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAku_Labc_84wu_YSUqZ4n5hlRy7MenI7A"
+        }
       },
       "package": "com.anomicaphasia.mealstogo"
     }
